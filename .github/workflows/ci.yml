@@ -1,0 +1,36 @@
+name: CI
+
+# The point of extracting these modules was that they can be run, not only
+# read. A green badge here is about this repository and nothing else.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.os }} · python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # One platform failing should not hide the state of the others.
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.11', '3.12', '3.13']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+
+      - run: pip install -r requirements-dev.txt
+
+      - name: Tests
+        run: python -m pytest -q
+
+      - name: Import every extracted module
+        run: python -c "import agent.provider, agent.json_store, agent.event_journal, agent.memory_graph, agent.memory_manifest; print('all modules import cleanly')"

@@ -1,0 +1,4 @@
+# The extracted modules need one runtime package; the rest is the test runner.
+aiohttp>=3.9
+pytest>=8.0
+pytest-asyncio>=0.23
