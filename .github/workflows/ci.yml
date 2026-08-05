@@ -26,6 +26,9 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           cache: pip
+          # setup-python looks for requirements.txt or pyproject.toml by
+          # default and fails the step when it finds neither.
+          cache-dependency-path: requirements-dev.txt
 
       - run: pip install -r requirements-dev.txt
 
