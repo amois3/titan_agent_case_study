@@ -48,11 +48,12 @@ thing the agent does, and routing every calculation through a human would empty
 the approval prompt of meaning through sheer volume. An approval that is granted
 fifty times a day is not a control.
 
-**Neither.** `install_package`, `mic_on`, `cam_on` and their counterparts execute
-directly. Their arguments are handled defensively — `install_package` rejects
-shell metacharacters, which stops command injection — but no approval is
-requested. This is the weakest part of the model and is stated as such at the
-end of this document.
+**Neither.** A small number of tools execute directly. Their arguments are
+handled defensively — metacharacters are rejected, which stops command
+injection — but no approval is requested. This is the weakest part of the model
+and is stated as such at the end of this document. Which tools they are is
+deliberately not listed in the published copy; the internal document names
+them.
 
 ## 2. Commands that always require a human
 
@@ -136,8 +137,8 @@ that is visibly down, because only the second one gets noticed.
 No credential is present in this repository. Every secret is read from the
 environment at runtime; `config.py` contains no literal values and
 `.env.example` ships with empty strings. Runtime tokens — Garmin OAuth, the
-Upwork session — live outside the project tree in `~/.titan_secrets/`, so that
-no accident inside the working directory can sweep them into version control.
+Upwork session — live outside the project tree entirely, so that no accident
+inside the working directory can sweep them into version control.
 
 The agent's memory, personal facts and client material live in `data/`, which is
 excluded from this repository entirely.
@@ -162,13 +163,13 @@ strengths is not describing a real system.
   can be made to do given an approval.
 - **The `DANGEROUS_COMMANDS` list is a denylist.** Denylists are structurally
   incomplete. It catches the obvious cases; it would not catch a novel one.
-- **`install_package` bypasses that denylist entirely.** `pip` is on the list,
-  but `install_package` does not route through `execute_command` — it calls the
-  shell helper directly, so approval is never requested. Metacharacter filtering
-  stops injection through the package name; it does nothing about the
-  installation of an arbitrary package, which is arbitrary code execution by a
-  slower route.
-- **The device tools are ungated.** `mic_on` and `cam_on` invoke a shell script
-  with no approval step. The exposure is a microphone and a camera being switched
-  on without a prompt. That is a privacy exposure rather than an integrity one,
-  which is why it sits here rather than behind a gate.
+- **Some tools bypass the denylist.** A few paths do not route through
+  `execute_command` and therefore never reach the approval step. Argument
+  filtering stops injection, but it does nothing about what the call itself is
+  allowed to do. One of them amounts to arbitrary code execution by a slower
+  route; another is a privacy exposure rather than an integrity one, which is
+  why it is accepted rather than gated.
+- **Which ones they are is not published here.** This copy is public and names a
+  real machine. The internal version of this document lists them by name, and I
+  will walk through it in a conversation. The gaps are stated because the count
+  and the shape of them are the honest part; the map is not.
