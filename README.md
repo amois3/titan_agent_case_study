@@ -6,7 +6,7 @@
 [![Licence](https://img.shields.io/badge/licence-review%20only-lightgrey)](LICENSE)
 
 TITAN is an autonomous personal agent that has run unattended on a single host
-since March 2026. It reads my mail and decides what deserves my attention,
+since December 2025. It reads my mail and decides what deserves my attention,
 briefs me each morning, watches a live trading bot, keeps a long-term memory of
 my projects and clients, and edits its own source under constraints I set. It
 holds write access to my filesystem, control of my devices, and supervision of a
@@ -134,7 +134,7 @@ Measured against the tree at the time of writing, not from memory:
 | Scheduled jobs | 15, surviving restarts in a SQLite job store |
 | Tests | 40 |
 | Providers | Poe (primary), OpenRouter (fallback and embeddings) |
-| Running since | March 2026, single host, unattended |
+| Running since | December 2025, single host, unattended |
 
 A ReAct loop with dynamic tool routing, persistent vector and graph memory,
 proactive scheduled work, and approval gates on anything irreversible — behind
