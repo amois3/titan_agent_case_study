@@ -158,3 +158,7 @@ are only asked for.
 ## Licence
 
 Published for evaluation and review. See [LICENSE](LICENSE).
+
+---
+
+The rest of this work, and how it is built: [moisejevs.com](https://moisejevs.com)
